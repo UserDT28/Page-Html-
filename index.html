@@ -10,9 +10,9 @@
     --panel:#1a1b21;
     --card:#1f2027;
     --text:#f4f4f6;
-    --muted:#c9aab2;    /* hồng nhạt mô tả */
-    --brand:#ff4d2d;   /* cam đỏ cho switch */
-    --brand-2:#7f4dff; /* tím kéo gradient */
+    --muted:#c9aab2;
+    --brand:#ff4d2d;
+    --brand-2:#7f4dff;
     --ring:#2b2d36;
     --radius:16px;
   }
@@ -20,28 +20,10 @@
   html,body{height:100%}
   body{
     margin:0;
-    background:radial-gradient(1200px 700px at 20% -10%, #1b1d26 0%, #0f0f12 60%) fixed;
+    background:#0f0f12;
     color:var(--text);
     font:16px/1.45 system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif;
     overflow-x: hidden;
-  }
-
-  /* Snowfield */
-  .snow{
-    pointer-events:none;
-    position:fixed; inset:0;
-    background-image:
-      radial-gradient(3px 3px at 25px 25px #fff0, #fff0),
-      radial-gradient(2px 2px at 15px 35px, #ffffffcc 50%, #ffffff00 52%),
-      radial-gradient(2px 2px at 55px 5px,  #ffffffcc 50%, #ffffff00 52%),
-      radial-gradient(2px 2px at 95px 45px, #ffffffcc 50%, #ffffff00 52%);
-    background-repeat:repeat;
-    animation:snow 18s linear infinite;
-    opacity:.15;
-  }
-  @keyframes snow{
-    from{background-position:0 0, 0 0, 0 0, 0 0;}
-    to  {background-position:0 800px, 0 600px, 0 900px, 0 700px;}
   }
 
   .wrap{
@@ -55,7 +37,6 @@
     border-radius: 20px;
     padding: 18px 20px;
     display:flex; align-items:center; gap:14px;
-    box-shadow: 0 10px 30px #00000055 inset, 0 1px 0 #2a2b34;
   }
   .badge{
     font-weight: 800; letter-spacing:.5px;
@@ -74,7 +55,6 @@
     background:var(--card);
     border-radius: var(--radius);
     padding: 14px;
-    box-shadow: 0 1px 0 #2a2b34, 0 22px 60px -20px #0007;
     border:1px solid var(--ring);
   }
 
@@ -98,25 +78,35 @@
   .switch input{ display:none; }
   .track{
     position:absolute; inset:0;
-    background: linear-gradient(90deg, #ff6a3a, #ff3b2e);
     border-radius: var(--h);
-    box-shadow: inset 0 0 0 2px #00000055, 0 6px 12px #ff3b2e33;
     transition:.25s ease;
   }
   .knob{
     position:absolute;
     width: calc(var(--h) - 6px); height: calc(var(--h) - 6px);
-    top: 3px; left: 3px;
-    border-radius:50%;
-    background:#0f0f12;
-    box-shadow: 0 2px 8px #0008;
+    top: 3px; border-radius:50%;
     transition:.25s ease;
   }
+  /* Khi bật */
+  .switch input:checked ~ .track{
+    background: linear-gradient(90deg, #ff6a3a, #ff3b2e);
+    box-shadow: inset 0 0 0 2px #00000055, 0 6px 12px #ff3b2e55;
+  }
+  .switch input:checked ~ .knob{
+    left: calc(var(--w) - var(--h) + 3px);
+    background:#0f0f12;
+    box-shadow:0 2px 8px #0008;
+  }
+  /* Khi tắt */
   .switch input:not(:checked) ~ .track{
     background:#2b2d36;
     box-shadow: inset 0 0 0 2px #00000055;
   }
-  .switch input:not(:checked) ~ .knob{ left: calc(var(--w) - var(--h) + 3px); background:#1a1b21;}
+  .switch input:not(:checked) ~ .knob{
+    left: 3px;
+    background:#1a1b21;
+    box-shadow:0 2px 6px #0006;
+  }
 
   /* Slider */
   .slider-wrap{padding: 10px 8px}
@@ -124,7 +114,6 @@
     -webkit-appearance:none; appearance:none;
     width:100%; height:6px; border-radius:999px; outline:none;
     background: linear-gradient(90deg, var(--brand-2), var(--brand));
-    box-shadow: inset 0 0 0 1px #00000066;
   }
   .slider::-webkit-slider-thumb{
     -webkit-appearance:none; appearance:none;
@@ -135,7 +124,7 @@
   }
   .value{
     font-weight:700; color:#ffb36f;
-    letter-spacing:.3px; min-width:88px; text-align:right
+    min-width:88px; text-align:right
   }
 
   .footer{
@@ -144,7 +133,6 @@
 </style>
 </head>
 <body>
-<div class="snow"></div>
 <div class="wrap">
   <div class="hero">
     <div class="badge">DEVMOBILE 🚀❄️</div>
@@ -152,7 +140,7 @@
   </div>
 
   <!-- Block 1 -->
-  <div class="section" id="block-1">
+  <div class="section">
     <div class="row">
       <div>
         <div class="title">Sensitivity Boost</div>
@@ -177,7 +165,7 @@
   </div>
 
   <!-- Block 2 -->
-  <div class="section" id="block-2">
+  <div class="section">
     <div class="row">
       <div>
         <div class="title">Optimizer</div>
@@ -202,7 +190,7 @@
   </div>
 
   <!-- Block 3 -->
-  <div class="section" id="block-3">
+  <div class="section">
     <div class="row">
       <div>
         <div class="title">Aim Head</div>
@@ -239,7 +227,7 @@
 
   <!-- Sliders -->
   <div class="section">
-    <div class="row" style="grid-template-columns:1fr minmax(80px,auto)">
+    <div class="row" style="grid-template-columns:1fr auto">
       <div>
         <div class="title">FPS</div>
         <div class="desc">Adjust FPS</div>
@@ -250,7 +238,7 @@
       <input type="range" min="30" max="240" step="5" value="240" class="slider" id="fps">
     </div>
 
-    <div class="row" style="grid-template-columns:1fr minmax(80px,auto)">
+    <div class="row" style="grid-template-columns:1fr auto">
       <div>
         <div class="title">DPI</div>
         <div class="desc">DPI adjustment</div>
@@ -266,58 +254,19 @@
 </div>
 
 <script>
-/* ---------- helpers ---------- */
-const $ = s => document.querySelector(s);
-const store = {
-  get(k, def){ try{ return JSON.parse(localStorage.getItem(k)) ?? def }catch{ return def } },
-  set(k, v){ localStorage.setItem(k, JSON.stringify(v)) }
-};
+function $(s){return document.querySelector(s);}
 
-function bindToggle(id, onChange){
-  const el = $('#'+id);
-  // restore
-  el.checked = store.get('tg_'+id, id==='optimizer'); // mặc định optimizer: on
-  el.addEventListener('change', e=>{
-    store.set('tg_'+id, el.checked);
-    onChange?.(el.checked);
-  });
-  onChange?.(el.checked);
-}
-
-function bindRange(id, valueEl, unit, def){
+function bindRange(id, valueEl, unit){
   const el = $('#'+id), lbl = $('#'+valueEl);
-  const saved = store.get('rg_'+id, def ?? el.value);
-  el.value = saved;
-  lbl.textContent = `${saved} ${unit}`;
   el.addEventListener('input', ()=>{
     lbl.textContent = `${el.value} ${unit}`;
   });
-  el.addEventListener('change', ()=>{
-    store.set('rg_'+id, el.value);
-  });
+  lbl.textContent = `${el.value} ${unit}`;
 }
 
-/* ---------- init ---------- */
 document.addEventListener('DOMContentLoaded', ()=>{
-  // Toggles
-  ['sensi','touch','optimizer','haptic','aimHead','aimLock','virtualMind']
-    .forEach(id => bindToggle(id, val=>{
-      // Demo: thêm ring sáng nhẹ khi bật
-      const row = document.querySelector('#'+id).closest('.row');
-      row.style.boxShadow = val ? '0 0 0 2px #ff4d2d33 inset' : 'none';
-    }));
-
-  // Sliders
-  bindRange('fps', 'fpsValue', 'FPS', 240);
-  bindRange('dpi', 'dpiValue', 'DPI', 60);
-
-  // Demo console log khi thay đổi (bạn thay bằng API thật nếu muốn)
-  document.querySelectorAll('input[type="checkbox"]').forEach(i=>{
-    i.addEventListener('change', ()=>console.log('toggle', i.id, i.checked));
-  });
-  document.querySelectorAll('input[type="range"]').forEach(i=>{
-    i.addEventListener('change', ()=>console.log('range', i.id, i.value));
-  });
+  bindRange('fps','fpsValue','FPS');
+  bindRange('dpi','dpiValue','DPI');
 });
 </script>
 </body>
