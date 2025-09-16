@@ -1,0 +1,324 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>DEVMOBILE – Control Panel</title>
+<style>
+  :root{
+    --bg:#0f0f12;
+    --panel:#1a1b21;
+    --card:#1f2027;
+    --text:#f4f4f6;
+    --muted:#c9aab2;    /* hồng nhạt mô tả */
+    --brand:#ff4d2d;   /* cam đỏ cho switch */
+    --brand-2:#7f4dff; /* tím kéo gradient */
+    --ring:#2b2d36;
+    --radius:16px;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{
+    margin:0;
+    background:radial-gradient(1200px 700px at 20% -10%, #1b1d26 0%, #0f0f12 60%) fixed;
+    color:var(--text);
+    font:16px/1.45 system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif;
+    overflow-x: hidden;
+  }
+
+  /* Snowfield */
+  .snow{
+    pointer-events:none;
+    position:fixed; inset:0;
+    background-image:
+      radial-gradient(3px 3px at 25px 25px #fff0, #fff0),
+      radial-gradient(2px 2px at 15px 35px, #ffffffcc 50%, #ffffff00 52%),
+      radial-gradient(2px 2px at 55px 5px,  #ffffffcc 50%, #ffffff00 52%),
+      radial-gradient(2px 2px at 95px 45px, #ffffffcc 50%, #ffffff00 52%);
+    background-repeat:repeat;
+    animation:snow 18s linear infinite;
+    opacity:.15;
+  }
+  @keyframes snow{
+    from{background-position:0 0, 0 0, 0 0, 0 0;}
+    to  {background-position:0 800px, 0 600px, 0 900px, 0 700px;}
+  }
+
+  .wrap{
+    max-width: 760px;
+    margin: 28px auto 80px;
+    padding: 0 18px;
+  }
+
+  .hero{
+    background: var(--panel);
+    border-radius: 20px;
+    padding: 18px 20px;
+    display:flex; align-items:center; gap:14px;
+    box-shadow: 0 10px 30px #00000055 inset, 0 1px 0 #2a2b34;
+  }
+  .badge{
+    font-weight: 800; letter-spacing:.5px;
+    color:#ff3b30;
+    text-shadow:0 0 8px #ff3b3070;
+    font-size: 20px;
+  }
+  .sub{
+    margin-left:auto;
+    color:#d3c7c7;
+    opacity:.85;
+  }
+
+  .section{
+    margin-top:20px;
+    background:var(--card);
+    border-radius: var(--radius);
+    padding: 14px;
+    box-shadow: 0 1px 0 #2a2b34, 0 22px 60px -20px #0007;
+    border:1px solid var(--ring);
+  }
+
+  .row{
+    display:grid;
+    grid-template-columns: 1fr auto;
+    gap:12px 20px;
+    align-items:center;
+    padding: 14px 8px;
+    border-radius:12px;
+  }
+  .row + .row{ border-top:1px solid #2b2d36; }
+  .title{ font-weight:800; font-size:20px; }
+  .desc{ color:var(--muted); margin-top:3px; font-size:14px}
+
+  /* Toggle switch */
+  .switch{
+    --w:58px; --h:30px;
+    position:relative; width:var(--w); height:var(--h);
+  }
+  .switch input{ display:none; }
+  .track{
+    position:absolute; inset:0;
+    background: linear-gradient(90deg, #ff6a3a, #ff3b2e);
+    border-radius: var(--h);
+    box-shadow: inset 0 0 0 2px #00000055, 0 6px 12px #ff3b2e33;
+    transition:.25s ease;
+  }
+  .knob{
+    position:absolute;
+    width: calc(var(--h) - 6px); height: calc(var(--h) - 6px);
+    top: 3px; left: 3px;
+    border-radius:50%;
+    background:#0f0f12;
+    box-shadow: 0 2px 8px #0008;
+    transition:.25s ease;
+  }
+  .switch input:not(:checked) ~ .track{
+    background:#2b2d36;
+    box-shadow: inset 0 0 0 2px #00000055;
+  }
+  .switch input:not(:checked) ~ .knob{ left: calc(var(--w) - var(--h) + 3px); background:#1a1b21;}
+
+  /* Slider */
+  .slider-wrap{padding: 10px 8px}
+  .slider{
+    -webkit-appearance:none; appearance:none;
+    width:100%; height:6px; border-radius:999px; outline:none;
+    background: linear-gradient(90deg, var(--brand-2), var(--brand));
+    box-shadow: inset 0 0 0 1px #00000066;
+  }
+  .slider::-webkit-slider-thumb{
+    -webkit-appearance:none; appearance:none;
+    width:22px; height:22px; border-radius:50%;
+    background:#fff; border:3px solid #111;
+    box-shadow:0 2px 10px #0008;
+    cursor:grab;
+  }
+  .value{
+    font-weight:700; color:#ffb36f;
+    letter-spacing:.3px; min-width:88px; text-align:right
+  }
+
+  .footer{
+    margin-top:14px; color:#9aa0a6; text-align:center; font-size:13px
+  }
+</style>
+</head>
+<body>
+<div class="snow"></div>
+<div class="wrap">
+  <div class="hero">
+    <div class="badge">DEVMOBILE 🚀❄️</div>
+    <div class="sub">Key period: <b>N/N</b></div>
+  </div>
+
+  <!-- Block 1 -->
+  <div class="section" id="block-1">
+    <div class="row">
+      <div>
+        <div class="title">Sensitivity Boost</div>
+        <div class="desc">Sensi increase, optimize sensitivity</div>
+      </div>
+      <label class="switch">
+        <input type="checkbox" id="sensi">
+        <span class="track"></span><span class="knob"></span>
+      </label>
+    </div>
+
+    <div class="row">
+      <div>
+        <div class="title">Touch Boost</div>
+        <div class="desc">Enhanced touch, fix lag</div>
+      </div>
+      <label class="switch">
+        <input type="checkbox" id="touch">
+        <span class="track"></span><span class="knob"></span>
+      </label>
+    </div>
+  </div>
+
+  <!-- Block 2 -->
+  <div class="section" id="block-2">
+    <div class="row">
+      <div>
+        <div class="title">Optimizer</div>
+        <div class="desc">System optimization</div>
+      </div>
+      <label class="switch">
+        <input type="checkbox" id="optimizer" checked>
+        <span class="track"></span><span class="knob"></span>
+      </label>
+    </div>
+
+    <div class="row">
+      <div>
+        <div class="title">Haptic Boost</div>
+        <div class="desc">Increased sense of touch</div>
+      </div>
+      <label class="switch">
+        <input type="checkbox" id="haptic">
+        <span class="track"></span><span class="knob"></span>
+      </label>
+    </div>
+  </div>
+
+  <!-- Block 3 -->
+  <div class="section" id="block-3">
+    <div class="row">
+      <div>
+        <div class="title">Aim Head</div>
+        <div class="desc">Helps grip the head better</div>
+      </div>
+      <label class="switch">
+        <input type="checkbox" id="aimHead">
+        <span class="track"></span><span class="knob"></span>
+      </label>
+    </div>
+
+    <div class="row">
+      <div>
+        <div class="title">Aim Lock</div>
+        <div class="desc">Target lock head</div>
+      </div>
+      <label class="switch">
+        <input type="checkbox" id="aimLock">
+        <span class="track"></span><span class="knob"></span>
+      </label>
+    </div>
+
+    <div class="row">
+      <div>
+        <div class="title">Virtual Mind</div>
+        <div class="desc">The virtual mind appears on the screen</div>
+      </div>
+      <label class="switch">
+        <input type="checkbox" id="virtualMind">
+        <span class="track"></span><span class="knob"></span>
+      </label>
+    </div>
+  </div>
+
+  <!-- Sliders -->
+  <div class="section">
+    <div class="row" style="grid-template-columns:1fr minmax(80px,auto)">
+      <div>
+        <div class="title">FPS</div>
+        <div class="desc">Adjust FPS</div>
+      </div>
+      <div class="value" id="fpsValue">240 FPS</div>
+    </div>
+    <div class="slider-wrap">
+      <input type="range" min="30" max="240" step="5" value="240" class="slider" id="fps">
+    </div>
+
+    <div class="row" style="grid-template-columns:1fr minmax(80px,auto)">
+      <div>
+        <div class="title">DPI</div>
+        <div class="desc">DPI adjustment</div>
+      </div>
+      <div class="value" id="dpiValue">60 DPI</div>
+    </div>
+    <div class="slider-wrap">
+      <input type="range" min="30" max="1000" step="5" value="60" class="slider" id="dpi">
+    </div>
+  </div>
+
+  <div class="footer">© 2025 NickVietStore — demo UI</div>
+</div>
+
+<script>
+/* ---------- helpers ---------- */
+const $ = s => document.querySelector(s);
+const store = {
+  get(k, def){ try{ return JSON.parse(localStorage.getItem(k)) ?? def }catch{ return def } },
+  set(k, v){ localStorage.setItem(k, JSON.stringify(v)) }
+};
+
+function bindToggle(id, onChange){
+  const el = $('#'+id);
+  // restore
+  el.checked = store.get('tg_'+id, id==='optimizer'); // mặc định optimizer: on
+  el.addEventListener('change', e=>{
+    store.set('tg_'+id, el.checked);
+    onChange?.(el.checked);
+  });
+  onChange?.(el.checked);
+}
+
+function bindRange(id, valueEl, unit, def){
+  const el = $('#'+id), lbl = $('#'+valueEl);
+  const saved = store.get('rg_'+id, def ?? el.value);
+  el.value = saved;
+  lbl.textContent = `${saved} ${unit}`;
+  el.addEventListener('input', ()=>{
+    lbl.textContent = `${el.value} ${unit}`;
+  });
+  el.addEventListener('change', ()=>{
+    store.set('rg_'+id, el.value);
+  });
+}
+
+/* ---------- init ---------- */
+document.addEventListener('DOMContentLoaded', ()=>{
+  // Toggles
+  ['sensi','touch','optimizer','haptic','aimHead','aimLock','virtualMind']
+    .forEach(id => bindToggle(id, val=>{
+      // Demo: thêm ring sáng nhẹ khi bật
+      const row = document.querySelector('#'+id).closest('.row');
+      row.style.boxShadow = val ? '0 0 0 2px #ff4d2d33 inset' : 'none';
+    }));
+
+  // Sliders
+  bindRange('fps', 'fpsValue', 'FPS', 240);
+  bindRange('dpi', 'dpiValue', 'DPI', 60);
+
+  // Demo console log khi thay đổi (bạn thay bằng API thật nếu muốn)
+  document.querySelectorAll('input[type="checkbox"]').forEach(i=>{
+    i.addEventListener('change', ()=>console.log('toggle', i.id, i.checked));
+  });
+  document.querySelectorAll('input[type="range"]').forEach(i=>{
+    i.addEventListener('change', ()=>console.log('range', i.id, i.value));
+  });
+});
+</script>
+</body>
+</html>
